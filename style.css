@@ -1,0 +1,43 @@
+header {
+  font-family: Didot, Helvetica;
+  font-weight: bold;
+  color: #AC2B37;
+  font-size: 25px;
+}
+
+body {
+  font-family: Helvetica, Arial,Sans-Serif;
+  font-weight: condensed;
+  color: #000000;
+  font-size: 25px;
+}
+
+/* Style main page content*/
+.main {
+  padding: 16px;
+}
+
+/* The navigation bar */
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
