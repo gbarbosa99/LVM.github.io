@@ -3,22 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LVM Tutor Dashboard</title>
+  <title>Student Dashboard</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
-  <div class="navbar">
-    <button id="login">Login</button>
-    <button id="logout" style="display: none;">Logout</button>
+  <div id="navbar">
+    <div class="btn-container">
+      <button id="login">Login</button>
+      <button id="logout" style="display: none;">Logout</button>
+    </div>
   </div>
-  
+
   <main>
     <h1>Student Information Dashboard</h1>
     <div id="signin-message">Please sign in to view the dashboard.</div>
     <div id="content" style="display: none;">
       <p>Welcome to the dashboard.</p>
-      <iframe id="dashboard" width="100%" height="600" src="https://lookerstudio.google.com/embed/reporting/e42b344b-f50c-41d7-a118-e2b44fbb4df0/page/wA3vD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+      <iframe id="dashboard" src="https://lookerstudio.google.com/embed/reporting/e42b344b-f50c-41d7-a118-e2b44fbb4df0/page/wA3vD" allowfullscreen></iframe>
     </div>
   </main>
 
@@ -27,7 +29,7 @@
   <script>
     window.botpressWebChat.init({
       "composerPlaceholder": "Chat with bot",
-      "botConversationDescription": "LVM Assistant",
+      "botConversationDescription": "This chatbot was built surprisingly fast with Botpress",
       "botId": "98d82678-935b-4d7d-a639-6790e26268d1",
       "hostUrl": "https://cdn.botpress.cloud/webchat/v1",
       "messagingUrl": "https://messaging.botpress.cloud",
@@ -66,11 +68,27 @@
     const logoutButton = document.getElementById('logout');
     const content = document.getElementById('content');
     const dashboardIframe = document.getElementById('dashboard');
+    const signinMessage = document.getElementById('signin-message');
 
     // Login event
     loginButton.addEventListener('click', e => {
       var provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider);
+      firebase.auth().signInWithPopup(provider).then(result => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // ...
+      }).catch(error => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        console.error(error);
+      });
     });
 
     // Logout event
@@ -85,6 +103,7 @@
         applyFilter(userEmail);
         loginButton.style.display = 'none';
         logoutButton.style.display = 'block';
+        signinMessage.style.display = 'none';
         content.style.display = 'block';
       } else {
         loginButton.style.display = 'block';
