@@ -7,13 +7,6 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <div class="navbar">
-    <img src="img/logo.png" style='display: block; max_height: 75%; max-width:75%; margin-left:auto; margin-right:16px' alt='LVM logo'>
-    <a href="index.html">Home</a>
-    <a href="insights.html">Dashboard</a>
-    <button id="login">Login</button>
-    <button id="logout" style="display: none;">Logout</button>
-  </div>
 
   <main>
     <h1>Student Information Dashboard</h1>
@@ -38,13 +31,14 @@
       messagingSenderId: "461887391658",
       appId: "1:461887391658:web:89d1ce4e4f68055618cdd3"
     };
-    // Initialize Firebase
+        // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
     // Get elements
     const loginButton = document.getElementById('login');
     const logoutButton = document.getElementById('logout');
     const content = document.getElementById('content');
+    const dashboardIframe = document.getElementById('dashboard');
 
     // Login event
     loginButton.addEventListener('click', e => {
@@ -60,17 +54,24 @@
     // Auth state listener
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('User logged in: ', user);
+        const userEmail = user.email;
+        applyFilter(userEmail);
         loginButton.style.display = 'none';
         logoutButton.style.display = 'block';
         content.style.display = 'block';
       } else {
-        console.log('No user logged in');
         loginButton.style.display = 'block';
         logoutButton.style.display = 'none';
         content.style.display = 'none';
       }
     });
+
+    function applyFilter(userEmail) {
+      // Assuming the Looker Studio URL can accept a query parameter to filter by email
+      const baseUrl = "https://lookerstudio.google.com/embed/reporting/e42b344b-f50c-41d7-a118-e2b44fbb4df0/page/wA3vD";
+      const filteredUrl = `${baseUrl}?email=${encodeURIComponent(userEmail)}`;
+      dashboardIframe.src = filteredUrl;
+    }
   </script>
 </body>
 </html>
