@@ -1,43 +1,45 @@
-header {
-  font-family: Didot, Helvetica;
-  font-weight: bold;
-  color: #AC2B37;
-  font-size: 25px;
-}
+/* Add to the existing styles or adjust as needed */
 
-body {
-  font-family: Helvetica, Arial,Sans-Serif;
-  font-weight: condensed;
-  color: #000000;
-  font-size: 25px;
-}
-
-/* Style main page content*/
-.main {
-  padding: 16px;
-}
-
-/* The navigation bar */
-.navbar {
-  overflow: hidden;
+/* Styles for the navbar */
+#navbar {
   background-color: #333;
-}
-
-.navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-}
-
-.sticky {
-  position: fixed;
+  color: white;
+  padding: 10px 0;
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
   top: 0;
   width: 100%;
+  z-index: 1000; /* Ensure the navbar is above other content */
 }
 
-.sticky + .content {
-  padding-top: 60px;
+#navbar nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
 }
+
+#navbar nav ul li {
+  margin: 0 15px;
+}
+
+#navbar nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 5px 10px;
+}
+
+#navbar nav ul li a:hover {
+  background-color: #575757;
+  border-radius: 5px;
+}
+
+/* Ensure the rest of the page content doesn't overlap the navbar */
+main {
+  padding: 20px;
+  margin-top: 60px; /* Adjust based on the height of the navbar */
+}
+
+/* Add the existing styles here... */
