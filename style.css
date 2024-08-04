@@ -1,5 +1,3 @@
-/* Add to the existing styles or adjust as needed */
-
 /* Styles for the navbar */
 #navbar {
   background-color: #333;
@@ -10,6 +8,9 @@
   top: 0;
   width: 100%;
   z-index: 1000; /* Ensure the navbar is above other content */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 #navbar nav ul {
@@ -38,8 +39,39 @@
 
 /* Ensure the rest of the page content doesn't overlap the navbar */
 main {
-  padding: 20px;
-  margin-top: 60px; /* Adjust based on the height of the navbar */
+  height: calc(100vh - 60px); /* Adjust based on the height of the navbar */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Add the existing styles here... */
+#signin-message {
+  font-size: 1.2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.navbar img {
+  max-height: 50px;
+  max-width: 50px;
+}
+
+.btn-container {
+  display: flex;
+  gap: 10px;
+}
