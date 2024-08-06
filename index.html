@@ -7,39 +7,40 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-
   <div class="navbar">
     <div class="btn-container">
       <button id="login">Login</button>
       <button id="logout" style="display: none;">Logout</button>
     </div>
   </div>
-
   <main>
     <div id="signin-message">Please sign in to view the dashboard.</div>
     <div id="content" style="display: none;">
-      <iframe id="dashboard" src="https://lookerstudio.google.com/embed/reporting/e42b344b-f50c-41d7-a118-e2b44fbb4df0/page/wA3vD" allowfullscreen></iframe>
+      <iframe id="dashboard" allowfullscreen></iframe>
     </div>
   </main>
 
   <!-- Botpress Chatbot Script -->
-<script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
-<script src="https://mediafiles.botpress.cloud/98d82678-935b-4d7d-a639-6790e26268d1/webchat/v2/config.js"></script>
+  <script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
+  <script src="https://mediafiles.botpress.cloud/98d82678-935b-4d7d-a639-6790e26268d1/webchat/v2/config.js"></script>
 
   <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <!-- Firebase Authentication -->
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
 
+  <!-- Load config.js -->
+  <script src="/config.js"></script>
+
   <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
-      apiKey: "AIzaSyDUhTuqof3DrlKV7MbostM5HqpbUZl4msk",
-      authDomain: "lvm-data.firebaseapp.com",
-      projectId: "lvm-data",
-      storageBucket: "lvm-data.appspot.com",
-      messagingSenderId: "461887391658",
-      appId: "1:461887391658:web:89d1ce4e4f68055618cdd3"
+      apiKey: "your-api-key",
+      authDomain: "your-auth-domain",
+      projectId: "your-project-id",
+      storageBucket: "your-storage-bucket",
+      messagingSenderId: "your-messaging-sender-id",
+      appId: "your-app-id"
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -47,45 +48,34 @@
     // Get elements
     const loginButton = document.getElementById('login');
     const logoutButton = document.getElementById('logout');
-    const content = document.getElementById('content');
-    const dashboardIframe = document.getElementById('dashboard');
     const signinMessage = document.getElementById('signin-message');
+    const content = document.getElementById('content');
 
     // Login event
-    loginButton.addEventListener('click', e => {
+    loginButton.addEventListener('click', () => {
       var provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider).then(result => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
         var user = result.user;
-        // ...
+        // ... handle user login
       }).catch(error => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
         console.error(error);
       });
     });
 
     // Logout event
-    logoutButton.addEventListener('click', e => {
+    logoutButton.addEventListener('click', () => {
       firebase.auth().signOut();
     });
 
     // Auth state listener
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        const userEmail = user.email;
-        applyFilter(userEmail);
         loginButton.style.display = 'none';
         logoutButton.style.display = 'block';
         signinMessage.style.display = 'none';
         content.style.display = 'block';
+        // Load the dashboard URL
+        applyFilter(user.email);
       } else {
         loginButton.style.display = 'block';
         logoutButton.style.display = 'none';
@@ -93,13 +83,6 @@
         content.style.display = 'none';
       }
     });
-
-    function applyFilter(userEmail) {
-      // Assuming the Looker Studio URL can accept a query parameter to filter by email
-      const baseUrl = "https://lookerstudio.google.com/embed/reporting/e42b344b-f50c-41d7-a118-e2b44fbb4df0/page/wA3vD";
-      const filteredUrl = `${baseUrl}?email=${encodeURIComponent(userEmail)}`;
-      dashboardIframe.src = filteredUrl;
-    }
   </script>
 </body>
 </html>
